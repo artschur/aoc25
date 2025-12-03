@@ -13,12 +13,14 @@ func main() {
 	}
 	defer f.Close()
 	s := bufio.NewScanner(f)
-	p1 := 0
+	p1, p2 := 0, 0
 	for s.Scan() {
 		bank := s.Text()
-		p1 += getMaximumJoltage(bank, 2)
+		p1 += getMaximumJoltage(bank, 2)  //part1
+		p2 += getMaximumJoltage(bank, 12) //part2
 	}
-	fmt.Println(p1)
+	fmt.Printf("p1: %v\n", p1)
+	fmt.Printf("p2: %v\n", p2)
 }
 
 type joltageChar struct {
@@ -32,11 +34,12 @@ func getMaximumJoltage(input string, lenght int) int {
 		digitsNeededAfter := lenght - i - 1
 		startSearchIndex := 0
 		if i > 0 {
+			// start from last chosen char (rule points out after i choose a number i can only choose numbers after it)
 			startSearchIndex = chosenChars[i-1].index + 1
 		}
 		limit := len(input) - digitsNeededAfter
 		for j := startSearchIndex; j < limit; j++ {
-			// if current is bigger than the last added into our arr
+			// find largest number in range
 			if input[j] > chosenChars[i].value {
 				chosenChars[i] = joltageChar{value: input[j], index: j}
 			}
