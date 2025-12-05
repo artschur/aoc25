@@ -12,7 +12,7 @@ func main() {
 }
 
 func day2() {
-	lines := readInput("./input_test")
+	lines := readInput("./input")
 
 	maxAdjacent := 4
 	totalRemoved := 0
