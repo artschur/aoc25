@@ -7,6 +7,34 @@ import (
 )
 
 func main() {
+	// day1()
+	day2()
+}
+
+func day2() {
+	lines := readInput("./input_test")
+
+	maxAdjacent := 4
+	totalRemoved := 0
+	for {
+		removedInIteration := 0
+		for line := range lines {
+			for col, _ := range lines[line] {
+				if lines[line][col] == "@" && validatePosition(lines, line, col, maxAdjacent) {
+					removePosition(lines, line, col)
+					removedInIteration++
+				}
+			}
+		}
+		if removedInIteration == 0 {
+			break
+		}
+		totalRemoved += removedInIteration
+	}
+	fmt.Println("Part 2:", totalRemoved)
+}
+
+func day1() {
 	lines := readInput("./input")
 
 	maxAdjacent := 4
@@ -19,7 +47,10 @@ func main() {
 		}
 	}
 	fmt.Println("Part 1:", p1)
+}
 
+func removePosition(lines [][]string, row, col int) {
+	lines[row][col] = "."
 }
 
 func validatePosition(lines [][]string, row, col, maxAdjacent int) bool {
