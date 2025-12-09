@@ -29,26 +29,21 @@ func (o operators) String() string {
 func main() {
 	rows, ops := readInput("./input_test")
 
-	// Transpose: convert rows to columns
+	// transpose
 	numCols := len(rows[0])
 	cols := make([][]int, numCols)
 
-	for colIdx := 0; colIdx < numCols; colIdx++ {
+	for colIdx, _ := range rows[0] {
 		cols[colIdx] = make([]int, len(rows))
-		for rowIdx := 0; rowIdx < len(rows); rowIdx++ {
+		for rowIdx, _ := range rows {
 			cols[colIdx][rowIdx] = rows[rowIdx][colIdx]
 		}
 	}
 
-	// Calculate sum
 	sum := 0
 	for i, col := range cols {
-		fmt.Printf("col %d: %v, op: %s\n", i, col, ops[i])
-
-		// Start with the first value
 		result := col[0]
 
-		// Apply operator to remaining values
 		mathOps := ops[i]
 		for j := 1; j < len(col); j++ {
 			switch mathOps {
@@ -58,8 +53,6 @@ func main() {
 				result *= col[j]
 			}
 		}
-
-		fmt.Printf("result: %d\n", result)
 		sum += result
 	}
 
