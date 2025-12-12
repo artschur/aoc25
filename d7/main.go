@@ -24,6 +24,9 @@ func main() {
 
 	totalSplits := countSplits(startingRow, startingCol, &grid, visited)
 	log.Printf("total splits: %d", totalSplits)
+
+	totalTimelines := countTimelines(startingRow, startingCol, &grid, make(map[string]int))
+	log.Printf("total timelines: %d", totalTimelines)
 }
 
 func countSplits(r, c int, grid *[][]string, visited map[string]bool) int {
@@ -49,6 +52,31 @@ func countSplits(r, c int, grid *[][]string, visited map[string]bool) int {
 	return totalSplits
 }
 
+func countTimelines(r, c int, grid *[][]string, memo map[string]int) int {
+	// if reaches end its a successful timeline
+	if r >= len(*grid) {
+		return 1
+	}
+
+	strCoord := fmt.Sprintf("%d,%d", r, c)
+	if count, ok := memo[strCoord]; ok {
+		return count // Return the stored ANSWER, do not return 0
+	}
+
+	totalTimelines := 0
+	currentChar := (*grid)[r][c]
+
+	if currentChar == "^" {
+		totalTimelines += countTimelines(r+1, c+1, grid, memo)
+		totalTimelines += countTimelines(r+1, c-1, grid, memo)
+	} else {
+
+		totalTimelines += countTimelines(r+1, c, grid, memo)
+	}
+	memo[strCoord] = totalTimelines
+	return totalTimelines
+
+}
 func readInput(path string) [][]string {
 	f, err := os.Open(path)
 	if err != nil {
