@@ -27,8 +27,15 @@ func (o operators) String() string {
 }
 
 func main() {
-	rows, ops := readInput("./input_test")
+	// day1()
+	rows, ops := readInputDay2("./input_test")
+	fmt.Printf("rows: %v\n", rows)
+	fmt.Printf("ops: %v\n", ops)
+}
 
+func day1() {
+	// rows, ops := readInputDay1("./input")
+	rows, ops := readInputDay1("./input_test")
 	// transpose
 	numCols := len(rows[0])
 	cols := make([][]int, numCols)
@@ -59,7 +66,7 @@ func main() {
 	fmt.Println("part1: ", sum)
 }
 
-func readInput(path string) ([][]int, []operators) {
+func readInputDay1(path string) ([][]int, []operators) {
 	f, err := os.Open(path)
 	if err != nil {
 		panic(err)
@@ -93,6 +100,26 @@ func readInput(path string) ([][]int, []operators) {
 		if len(currentRow) > 0 {
 			rows = append(rows, currentRow)
 		}
+	}
+	return rows, ops
+}
+
+func readInputDay2(path string) ([][]int, []operators) {
+	f, err := os.Open(path)
+	if err != nil {
+		panic(err)
+	}
+
+	s := bufio.NewScanner(f)
+
+	rows := make([][]int, 0)
+	var ops []operators
+
+	for s.Scan() {
+		rowStr := strings.TrimSpace(s.Text())
+		fields := strings.Fields(rowStr)
+		fmt.Printf("fields: %v\n", fields)
+
 	}
 	return rows, ops
 }
